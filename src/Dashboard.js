@@ -26,7 +26,8 @@ function Dashboard() {
       <div className="services">
         <div className="service-box" onClick={() => navigate("/upload")}>Upload Video</div>
 
-        <div className="service-box">Check Previous Videos</div>
+        <div className="service-box" onClick={() => navigate("/previous")}>Check Previous Videos</div>
+
         <div className="service-box">Reference Videos</div>
 
         <div className="service-box">Live AI Video Monitoring</div>

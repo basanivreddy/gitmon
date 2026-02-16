@@ -3,30 +3,54 @@ import { useNavigate } from "react-router-dom";
 import "./UploadVideo.css";
 
 function UploadVideo() {
+  const [videoFile, setVideoFile] = useState(null);
   const [video, setVideo] = useState(null);
   const [date, setDate] = useState("");
   const navigate = useNavigate();
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setVideo(URL.createObjectURL(file));
-    }
-  };
+ const handleFileChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    setVideoFile(file);
+    setVideo(URL.createObjectURL(file));
+  }
+};
 
-  const handleUpload = () => {
-    if (!date) {
-      alert("Please select a date!");
-      return;
-    }
+const handleUpload = async () => {
+  console.log("Analyze button clicked");
 
-    if (!video) {
-      alert("Please upload a video!");
-      return;
-    }
+  if (!date) {
+    alert("Please select a date!");
+    return;
+  }
 
-    alert(`Video uploaded for ${date} 🚀`);
-  };
+  if (!videoFile) {
+    alert("Please upload a video!");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("video", videoFile);
+  formData.append("date", date);
+
+  try {
+    console.log("Sending request to backend...");
+
+    const response = await fetch("http://localhost:5000/upload", {
+      method: "POST",
+      body: formData
+    });
+
+    console.log("Response received");
+
+    const data = await response.json();
+    alert(data.message);
+
+  } catch (error) {
+    console.error("Upload error:", error);
+  }
+};
+
 
   return (
     <div className="upload-container">
