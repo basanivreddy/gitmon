@@ -1,0 +1,165 @@
+/* ===== Full Page Background ===== */
+.upload-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== Main Card ===== */
+.upload-card {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  width: 520px;
+  text-align: center;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* ===== Fade Animation ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Back Button ===== */
+.back-btn {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  border: none;
+  background: none;
+  font-weight: bold;
+  cursor: pointer;
+  color: #667eea;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  color: #5a67d8;
+}
+
+/* ===== Heading ===== */
+.upload-card h2 {
+  margin-bottom: 8px;
+}
+
+.upload-card p {
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+/* ===== Date Section ===== */
+.date-section {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.date-section label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.date-section input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.date-section input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 6px rgba(102, 126, 234, 0.4);
+}
+
+/* ===== Upload Area ===== */
+.upload-area {
+  display: block;
+  border: 2px dashed #667eea;
+  padding: 35px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 20px;
+  font-weight: 500;
+  color: #444;
+}
+
+.upload-area:hover {
+  background: #f4f6ff;
+  border-color: #5a67d8;
+}
+
+/* ===== Preview Section ===== */
+.preview-section {
+  margin-top: 15px;
+}
+
+.video-preview {
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Remove Button ===== */
+.remove-btn {
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 13px;
+  transition: 0.3s;
+}
+
+.remove-btn:hover {
+  background: darkred;
+}
+
+/* ===== Upload Button ===== */
+.upload-btn {
+  width: 100%;
+  padding: 12px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.upload-btn:hover {
+  background: #5a67d8;
+  transform: translateY(-2px);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .upload-card {
+    width: 100%;
+    padding: 30px;
+  }
+}
