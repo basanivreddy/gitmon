@@ -1,0 +1,41 @@
+.physio-container {
+  padding: 50px;
+  background: #f4f6fb;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.physio-form {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.physio-form input,
+.physio-form select,
+.physio-form textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.physio-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #667eea;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.physio-form button:hover {
+  background: #5563d6;
+}

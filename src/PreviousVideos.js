@@ -6,12 +6,24 @@ function PreviousVideos() {
   const [videos, setVideos] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("http://localhost:5000/videos")
-      .then(res => res.json())
-      .then(data => setVideos(data))
-      .catch(err => console.error(err));
-  }, []);
+useEffect(() => {
+  const userId = localStorage.getItem("userId");
+
+  if (!userId) {
+    console.error("No userId found. Please login again.");
+    navigate("/");
+    return;
+  }
+
+  fetch(`http://localhost:5000/videos?userId=${userId}`)
+    .then(res => res.json())
+    .then(data => {
+      console.log("Videos fetched:", data);
+      setVideos(data);
+    })
+    .catch(err => console.error(err));
+
+}, [navigate]);
 
   return (
     <div className="previous-container">

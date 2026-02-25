@@ -32,6 +32,9 @@ const handleUpload = async () => {
   const formData = new FormData();
   formData.append("video", videoFile);
   formData.append("date", date);
+  const userId = localStorage.getItem("userId");
+  formData.append("userId", userId);
+
 
   try {
     console.log("Sending request to backend...");
