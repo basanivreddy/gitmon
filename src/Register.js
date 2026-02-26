@@ -22,7 +22,7 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/register", {
+    const res = await fetch("https://gaitmon.onrender.com/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

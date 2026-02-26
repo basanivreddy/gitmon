@@ -38,7 +38,7 @@ function CheckProgress() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/progress?start=${startDate}&end=${endDate}&userId=${userId}`
+        `https://gaitmon.onrender.com/progress?start=${startDate}&end=${endDate}&userId=${userId}`
       );
 
       const data = await res.json();

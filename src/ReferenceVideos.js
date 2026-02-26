@@ -8,15 +8,15 @@ function ReferenceVideos() {
   const videos = [
     {
       title: "Normal Walking Pattern",
-      url: "http://localhost:5000/reference/normal_walk.mp4"
+      url: "https://gaitmon.onrender.com/reference/normal_walk.mp4"
     },
     {
       title: "Correct Posture Demo",
-      url: "http://localhost:5000/reference/correct_posture.mp4"
+      url: "https://gaitmon.onrender.com/reference/correct_posture.mp4"
     },
     {
       title: "Physiotherapy Exercise",
-      url: "http://localhost:5000/reference/physio_demo.mp4"
+      url: "https://gaitmon.onrender.com/reference/physio_demo.mp4"
     }
   ];
 

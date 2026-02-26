@@ -39,7 +39,7 @@ const handleUpload = async () => {
   try {
     console.log("Sending request to backend...");
 
-    const response = await fetch("http://localhost:5000/upload", {
+    const response = await fetch("https://gaitmon.onrender.com/upload", {
       method: "POST",
       body: formData
     });

@@ -15,7 +15,7 @@ useEffect(() => {
     return;
   }
 
-  fetch(`http://localhost:5000/videos?userId=${userId}`)
+  fetch(`https://gaitmon.onrender.com/videos?userId=${userId}`)
     .then(res => res.json())
     .then(data => {
       console.log("Videos fetched:", data);
@@ -39,7 +39,7 @@ useEffect(() => {
           <div key={video._id} className="video-card">
             <p><strong>Date:</strong> {video.date}</p>
             <video
-              src={`http://localhost:5000/${video.videoPath}`}
+              src={`https://gaitmon.onrender.com/${video.videoPath}`}
               controls
             />
             <p className="time">

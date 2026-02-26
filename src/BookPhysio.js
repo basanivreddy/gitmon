@@ -34,7 +34,7 @@ function BookPhysio() {
   }
 
   try {
-    const res = await fetch("http://localhost:5000/book-physio", {
+    const res = await fetch("https://gaitmon.onrender.com/book-physio", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
