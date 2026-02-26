@@ -18,7 +18,7 @@ app.use("/reference", express.static("reference_videos"));
 
 
 /* ===== MongoDB Connection ===== */
-mongoose.connect("mongodb://127.0.0.1:27017/gaitdb")
+mongoose.connect("mongodb+srv://vivek:vivek@cluster0.sl1kqk3.mongodb.net/?appName=Cluster0")
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
@@ -82,47 +82,47 @@ app.get("/progress", async (req, res) => {
 });
 
 
-const axios = require("axios");
-const FormData = require("form-data");
-const fs = require("fs");
-
-app.post("/upload", uploadMiddleware, async (req, res) => {
+/* ===== Upload API ===== */
+app.post("/upload", upload.single("video"), async (req, res) => {
   try {
+    const userId = req.body.userId;
 
-    const { userId, date } = req.body;
-    const videoPath = req.file.path;
 
-    const form = new FormData();
-    form.append("video", fs.createReadStream(videoPath));
-
-    const aiResponse = await axios.post(
-      "http://localhost:8000/analyze",
-      form,
-      { headers: form.getHeaders() }
-    );
-
-    const gaitMetrics = aiResponse.data;
 
     const newUpload = new Upload({
-      userId,
-      date,
-      videoPath,
-      gaitMetrics
+      date: req.body.date,
+      videoPath: req.file.path,
+      userId: userId
     });
 
     await newUpload.save();
-
-    res.json({
-      message: "Video analyzed successfully!",
-      gaitMetrics
-    });
+    res.json({ message: "Upload saved successfully" });
 
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: error.message });
   }
 });
 
+app.post("/upload", upload.single("video"), async (req, res) => {
+  console.log("Upload request received");
+  console.log("Date:", req.body.date);
+  console.log("File:", req.file);
+
+  try {
+    const newUpload = new Upload({
+      date: req.body.date,
+      videoPath: req.file.path,
+      userId: req.body.userId
+    });
+
+    await newUpload.save();
+    res.json({ message: "Upload saved successfully" });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 app.post("/book-physio", async (req, res) => {
