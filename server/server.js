@@ -155,7 +155,17 @@ app.post("/login", async (req, res) => {
   });
 });
 
+app.get("/bookings", async (req, res) => {
+  try {
+    const bookings = await PhysioBooking.find()
+      .populate("userId", "name email") // 👈 optional but powerful
+      .sort({ createdAt: -1 });
 
+    res.json(bookings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 app.post("/register", async (req, res) => {
