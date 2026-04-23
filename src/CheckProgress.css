@@ -1,6 +1,6 @@
 .progress-container {
   padding: 40px;
-  background: #f4f6fb;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
   min-height: 100vh;
   font-family: Arial, sans-serif;
 }
@@ -10,13 +10,13 @@
   margin-bottom: 30px;
 }
 
+/* DATE */
 .date-selector {
   display: flex;
-  flex-wrap: wrap;
   gap: 20px;
-  align-items: flex-end;
   justify-content: center;
-  margin-bottom: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
 .input-group {
@@ -24,49 +24,86 @@
   flex-direction: column;
 }
 
-.input-group label {
-  margin-bottom: 5px;
-  font-weight: 600;
-}
-
 .input-group input {
-  padding: 8px;
-  border-radius: 8px;
+  padding: 10px;
+  border-radius: 10px;
   border: 1px solid #ccc;
-  width: 180px;
 }
 
+/* BUTTON */
 .analyze-btn {
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 10px;
   border: none;
   background: #667eea;
   color: white;
-  font-size: 14px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 .analyze-btn:hover {
   background: #5563d6;
 }
 
-.chart-section {
-  max-width: 800px;
+/* METRICS */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  max-width: 900px;
   margin: auto;
 }
 
-.insight-box {
-  margin-top: 30px;
-  padding: 20px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+.metric-card {
   background: white;
+  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-.insight-box h3 {
+/* CHART GRID */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+  margin: 30px auto;
+}
+
+.chart-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.chart-card h4 {
+  text-align: center;
   margin-bottom: 10px;
+}
+
+/* INSIGHT */
+.insight-box {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
 }
