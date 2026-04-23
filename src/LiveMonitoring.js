@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Pose } from "@mediapipe/pose";
+import { Pose, POSE_CONNECTIONS } from "@mediapipe/pose";
 import { Camera } from "@mediapipe/camera_utils";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { useNavigate } from "react-router-dom";
@@ -11,22 +11,16 @@ function LiveMonitoring() {
   const navigate = useNavigate();
 
   const [isStarted, setIsStarted] = useState(false);
-  const [lastSpoken, setLastSpoken] = useState("");
-  const [lastSpokenTime, setLastSpokenTime] = useState(0);
+
+  // ✅ FIX: useRef instead of state (no re-render, no warning)
+  const lastSpokenRef = useRef("");
+  const lastSpokenTimeRef = useRef(0);
 
   // 🔊 Text to Speech
   function speak(message) {
-    if (!("speechSynthesis" in window)) {
-      console.log("Speech not supported");
-      return;
-    }
+    if (!("speechSynthesis" in window)) return;
 
     const utterance = new SpeechSynthesisUtterance(message);
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-    utterance.lang = "en-US";
-
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   }
@@ -43,11 +37,13 @@ function LiveMonitoring() {
   }
 
   useEffect(() => {
-    if (!isStarted) return;
+    if (!isStarted || !videoRef.current || !canvasRef.current) return;
+
+    let camera;
 
     const pose = new Pose({
       locateFile: (file) =>
-        `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`,
+        `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/${file}`,
     });
 
     pose.setOptions({
@@ -58,8 +54,11 @@ function LiveMonitoring() {
     });
 
     pose.onResults((results) => {
+      if (!canvasRef.current) return;
+
       const canvasCtx = canvasRef.current.getContext("2d");
-      canvasCtx.save();
+      if (!canvasCtx) return;
+
       canvasCtx.clearRect(
         0,
         0,
@@ -76,11 +75,7 @@ function LiveMonitoring() {
       );
 
       if (results.poseLandmarks) {
-        drawConnectors(
-          canvasCtx,
-          results.poseLandmarks,
-          Pose.POSE_CONNECTIONS
-        );
+        drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS);
         drawLandmarks(canvasCtx, results.poseLandmarks);
 
         const lm = results.poseLandmarks;
@@ -95,106 +90,72 @@ function LiveMonitoring() {
         const rightAnkle = lm[28];
         const nose = lm[0];
 
-        const spineAngle = calculateAngle(
-          leftShoulder,
-          leftHip,
-          leftKnee
-        );
-
-        const leftKneeAngle = calculateAngle(
-          leftHip,
-          leftKnee,
-          leftAnkle
-        );
-
-        const rightKneeAngle = calculateAngle(
-          rightHip,
-          rightKnee,
-          rightAnkle
-        );
+        const spineAngle = calculateAngle(leftShoulder, leftHip, leftKnee);
+        const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
+        const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
 
         let insights = [];
 
-        // Spine posture
-        if (spineAngle < 165) {
-          insights.push("Keep your spine straight");
-        }
+        if (spineAngle < 165) insights.push("Keep your spine straight");
 
-        // Shoulder balance
-        if (Math.abs(leftShoulder.y - rightShoulder.y) > 0.04) {
+        if (Math.abs(leftShoulder.y - rightShoulder.y) > 0.04)
           insights.push("Balance your shoulders");
-        }
 
-        // Knee bending
-        if (leftKneeAngle < 160 || rightKneeAngle < 160) {
+        if (leftKneeAngle < 160 || rightKneeAngle < 160)
           insights.push("Avoid excessive knee bending");
-        }
 
-        // Forward leaning
-        if (nose.y > leftShoulder.y) {
+        if (nose.y > leftShoulder.y)
           insights.push("Raise your chest and look forward");
-        }
 
-        // Hip alignment
-        if (Math.abs(leftHip.y - rightHip.y) > 0.05) {
-          insights.push("Level your hips while walking");
-        }
+        if (Math.abs(leftHip.y - rightHip.y) > 0.05)
+          insights.push("Level your hips");
 
-        // Stride length
-        if (Math.abs(leftAnkle.x - rightAnkle.x) > 0.3) {
-          insights.push("Reduce your stride length slightly");
-        }
+        if (Math.abs(leftAnkle.x - rightAnkle.x) > 0.3)
+          insights.push("Reduce stride length");
 
-        // Symmetry
-        if (Math.abs(leftKneeAngle - rightKneeAngle) > 20) {
-          insights.push("Try to walk more symmetrically");
-        }
+        if (Math.abs(leftKneeAngle - rightKneeAngle) > 20)
+          insights.push("Walk more symmetrically");
 
-        // Head alignment
-        if (Math.abs(nose.x - leftShoulder.x) > 0.1) {
-          insights.push("Keep your head aligned with your body");
-        }
+        if (Math.abs(nose.x - leftShoulder.x) > 0.1)
+          insights.push("Keep your head aligned");
 
-        if (insights.length === 0) {
-          insights.push(
-            "Excellent posture. Keep walking confidently"
-          );
-        }
+        if (insights.length === 0)
+          insights.push("Excellent posture. Keep walking");
 
         const message = insights[0];
         const now = Date.now();
 
+        // ✅ FIXED: using refs instead of state
         if (
-          message !== lastSpoken &&
-          now - lastSpokenTime > 3000
+          message !== lastSpokenRef.current &&
+          now - lastSpokenTimeRef.current > 3000
         ) {
           speak(message);
-          setLastSpoken(message);
-          setLastSpokenTime(now);
+          lastSpokenRef.current = message;
+          lastSpokenTimeRef.current = now;
         }
       }
-
-      canvasCtx.restore();
     });
 
-    if (videoRef.current) {
-      const camera = new Camera(videoRef.current, {
-        onFrame: async () => {
-          await pose.send({ image: videoRef.current });
-        },
-        width: 640,
-        height: 480,
-      });
-      camera.start();
-    }
-  }, [isStarted, lastSpoken, lastSpokenTime]);
+    camera = new Camera(videoRef.current, {
+      onFrame: async () => {
+        await pose.send({ image: videoRef.current });
+      },
+      width: 640,
+      height: 480,
+    });
+
+    camera.start();
+
+    return () => {
+      if (camera) camera.stop();
+      pose.close();
+    };
+  }, [isStarted]);
 
   return (
     <div className="live-container">
-      <button
-        className="back-btn"
-        onClick={() => navigate("/dashboard")}
-      >
+      <button className="back-btn" onClick={() => navigate("/dashboard")}>
         ← Back
       </button>
 
@@ -204,11 +165,11 @@ function LiveMonitoring() {
         <button
           className="start-btn"
           onClick={() => {
-            speak("Live gait monitoring started");
+            speak("Live monitoring started");
             setIsStarted(true);
           }}
         >
-          Start AI Monitoring
+          Start Monitoring
         </button>
       ) : (
         <div className="video-wrapper">
