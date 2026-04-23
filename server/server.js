@@ -155,17 +155,13 @@ app.post("/login", async (req, res) => {
   });
 });
 
-app.put("/booking/:id", async (req, res) => {
+app.get("/bookings", async (req, res) => {
   try {
-    const { status } = req.body;
+    const bookings = await PhysioBooking.find()
+      .populate("userId", "name email") // 👈 optional but powerful
+      .sort({ createdAt: -1 });
 
-    const updated = await PhysioBooking.findByIdAndUpdate(
-      req.params.id,
-      { status },
-      { new: true }
-    );
-
-    res.json(updated);
+    res.json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
