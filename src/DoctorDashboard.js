@@ -10,7 +10,7 @@ function DoctorDashboard() {
 
   const fetchBookings = async () => {
     try {
-      const res = await fetch("https://gaitmon.onrender.com/book-physio");
+      const res = await fetch("https://gaitmon.onrender.com/bookings");
       const data = await res.json();
       setBookings(data);
     } catch (error) {
@@ -36,7 +36,7 @@ function DoctorDashboard() {
               <p><b>Pain Level:</b> {b.painLevel}</p>
               <p><b>Previous Injury:</b> {b.previousInjury}</p>
               <p><b>Date:</b> {b.preferredDate}</p>
-
+              
               {/* 👇 populated user */}
               {b.userId && (
                 <p><b>Patient:</b> {b.userId.name}</p>
