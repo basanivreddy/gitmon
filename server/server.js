@@ -21,25 +21,32 @@ app.use("/reference", express.static("reference_videos"));
 mongoose.connect("mongodb+srv://vivek:vivek@cluster0.sl1kqk3.mongodb.net/?appName=Cluster0")
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
-
-/* ===== Schema ===== */
 const uploadSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-      },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
+
   date: String,
   videoPath: String,
+
+  // 🔥 ADD THIS BLOCK
+  gaitData: {
+    stepLength: String,
+    cadence: Number,
+    speed: String,
+    symmetry: String,
+    strideTime: String,
+    gaitScore: Number
+  },
+
   uploadedAt: {
     type: Date,
     default: Date.now
   }
-
-
 });
 
 const Upload = mongoose.model("Upload", uploadSchema);
-
 
 
 
@@ -82,45 +89,35 @@ app.get("/progress", async (req, res) => {
 });
 
 
-/* ===== Upload API ===== */
 app.post("/upload", upload.single("video"), async (req, res) => {
   try {
-    const userId = req.body.userId;
+    const { date, userId } = req.body;
 
+    if (!req.file) {
+      return res.status(400).json({ error: "No video uploaded" });
+    }
 
+    let gaitData = {};
+    try {
+      gaitData = JSON.parse(req.body.gaitData || "{}");
+    } catch (e) {
+      console.log("Invalid gaitData format");
+    }
 
     const newUpload = new Upload({
-      date: req.body.date,
+      userId: new mongoose.Types.ObjectId(userId), // 🔥 FIX
+      date,
       videoPath: req.file.path,
-      userId: userId
+      gaitData
     });
 
     await newUpload.save();
-    res.json({ message: "Upload saved successfully" });
 
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+    res.json({ message: "Upload successful", data: newUpload });
 
-app.post("/upload", upload.single("video"), async (req, res) => {
-  console.log("Upload request received");
-  console.log("Date:", req.body.date);
-  console.log("File:", req.file);
-
-  try {
-    const newUpload = new Upload({
-      date: req.body.date,
-      videoPath: req.file.path,
-      userId: req.body.userId
-    });
-
-    await newUpload.save();
-    res.json({ message: "Upload saved successfully" });
-
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Upload failed" });
   }
 });
 
