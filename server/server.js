@@ -167,6 +167,15 @@ app.get("/bookings", async (req, res) => {
   }
 });
 
+app.get("/patients", async (req, res) => {
+  try {
+    const patients = await User.find({ role: "user" }).select("-password");
+    res.json(patients);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 app.post("/register", async (req, res) => {
   try {

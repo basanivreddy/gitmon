@@ -1,0 +1,46 @@
+/* CONTAINER */
+.patients-container {
+  padding: 40px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.patients-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* HORIZONTAL SCROLL */
+.patients-row {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+/* CARD */
+.patient-card {
+  min-width: 200px;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: 0.3s;
+}
+
+.patient-card:hover {
+  transform: translateY(-5px);
+}
+
+/* BUTTON */
+.patient-card button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}

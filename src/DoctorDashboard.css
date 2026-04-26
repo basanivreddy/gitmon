@@ -1,85 +1,74 @@
+/* MAIN CONTAINER */
 .doctor-container {
-  padding: 40px;
-  background: #f4f6fb;
-  min-height: 100vh;
-}
-
-.doctor-container h2 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.booking-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.booking-card {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  transition: 0.3s;
-}
-
-.booking-card:hover {
-  transform: translateY(-5px);
-}
-
-.booking-card h3 {
-  margin-bottom: 10px;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .booking-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .booking-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.btn-group {
-  margin-top: 10px;
+  height: 100vh;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: "Segoe UI", sans-serif;
 }
 
-.approve-btn {
-  background: #48bb78;
-  color: white;
+/* TITLE */
+.doctor-container h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: #1e293b;
+}
+
+/* BUTTON WRAPPER */
+.tabs {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* BUTTON STYLE */
+.tabs button {
+  padding: 18px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 15px;
   border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 180px;
 }
 
-.reject-btn {
-  background: #e53e3e;
+/* APPOINTMENTS BUTTON */
+.tabs button:nth-child(1) {
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
   color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
 }
 
-.status {
-  font-weight: bold;
+/* PATIENTS BUTTON */
+.tabs button:nth-child(2) {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
 }
 
-.status.pending {
-  color: orange;
+/* BLOGS BUTTON */
+.tabs button:nth-child(3) {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
 }
 
-.status.approved {
-  color: green;
+/* HOVER EFFECT */
+.tabs button:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
-.status.rejected {
-  color: red;
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .tabs {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  .tabs button {
+    width: 80%;
+  }
 }

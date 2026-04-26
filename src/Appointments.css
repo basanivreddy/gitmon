@@ -1,0 +1,141 @@
+/* MAIN CONTAINER */
+.doctor-container {
+  padding: 40px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* TITLE */
+.doctor-container h2 {
+  text-align: center;
+  margin-bottom: 35px;
+  font-size: 32px;
+  color: #1e293b;
+  letter-spacing: 1px;
+}
+
+/* GRID LAYOUT */
+.booking-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* CARD DESIGN */
+.booking-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* TOP BORDER EFFECT */
+.booking-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(to right, #6366f1, #3b82f6);
+}
+
+/* HOVER EFFECT */
+.booking-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+/* TEXT */
+.booking-card h3 {
+  margin-bottom: 10px;
+  color: #1e293b;
+}
+
+.booking-card p {
+  margin: 6px 0;
+  color: #475569;
+}
+
+/* STATUS BADGE */
+.status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status.pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.status.approved {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.status.rejected {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* BUTTON GROUP */
+.btn-group {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+/* BUTTON BASE */
+.btn-group button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* APPROVE BUTTON */
+.approve-btn {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.approve-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(34,197,94,0.4);
+}
+
+/* REJECT BUTTON */
+.reject-btn {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.reject-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(239,68,68,0.4);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 900px) {
+  .booking-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .booking-grid {
+    grid-template-columns: 1fr;
+  }
+}
