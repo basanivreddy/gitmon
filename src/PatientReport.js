@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "./PatientReport.css";
 
 function PatientReport() {
   const { id } = useParams();
@@ -25,7 +26,7 @@ function PatientReport() {
   if (!patient) return <h2>Loading...</h2>;
 
   return (
-    <div className="doctor-container">
+    <div className="report-container">
       <h2>{patient.name}</h2>
       <p>Email: {patient.email}</p>
       <p>Role: {patient.role}</p>

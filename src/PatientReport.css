@@ -1,0 +1,94 @@
+/* CONTAINER */
+.report-container {
+  padding: 40px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* HEADER */
+.report-container h2 {
+  text-align: center;
+  font-size: 32px;
+  color: #1e293b;
+  margin-bottom: 10px;
+}
+
+/* PATIENT INFO CARD */
+.report-container > p {
+  text-align: center;
+  color: #475569;
+  margin: 5px 0;
+}
+
+/* SECTION TITLE */
+.report-container h3 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: #334155;
+  text-align: center;
+}
+
+/* GRID */
+.booking-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* VIDEO CARD */
+.booking-card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.booking-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+/* DATE */
+.booking-card p {
+  color: #475569;
+  margin-bottom: 10px;
+}
+
+/* VIDEO */
+.booking-card video {
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* GAIT DATA BOX */
+.booking-card pre {
+  background: #f1f5f9;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  overflow-x: auto;
+  color: #1e293b;
+}
+
+/* NO DATA TEXT */
+.report-container p:last-child {
+  text-align: center;
+  color: #64748b;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .booking-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .booking-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
