@@ -88,6 +88,18 @@ app.get("/progress", async (req, res) => {
   }
 });
 
+// GET VIDEOS BY USER ID
+app.get("/uploads/:userId", async (req, res) => {
+  try {
+    const uploads = await Upload.find({
+      userId: req.params.userId
+    });
+
+    res.json(uploads);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 app.post("/upload", upload.single("video"), async (req, res) => {
   try {
