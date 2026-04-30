@@ -88,6 +88,32 @@ app.get("/progress", async (req, res) => {
   }
 });
 
+// ===== Blog Schema =====
+const blogSchema = new mongoose.Schema({
+  title: String,
+  content: String,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const Blog = mongoose.model("Blog", blogSchema);
+
+// ===== Save Blog API =====
+app.post("/blogs", async (req, res) => {
+  try {
+    const { title, content } = req.body;
+
+    const blog = new Blog({ title, content });
+    await blog.save();
+
+    res.json({ message: "Blog saved successfully" });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 // GET VIDEOS BY USER ID
 app.get("/uploads/:userId", async (req, res) => {
   try {

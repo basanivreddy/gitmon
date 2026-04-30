@@ -14,7 +14,8 @@ import Register from "./Register";
 import Patients from "./Patients";
 import Blogs from "./Blogs";
 import Appointments from "./Appointments";
-        import PatientReport from "./PatientReport";
+import PatientReport from "./PatientReport";
+import ChatPage from "./ChatPage";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/live" element={<LiveMonitoring />} />
         <Route path="/progress" element={<CheckProgress />} />
         <Route path="/physio" element={<BookPhysio />} />
+        <Route path="/chat" element={<ChatPage />} />
 
         {/* 👇 MAIN DOCTOR MENU */}
         <Route path="/doctor-dashboard" element={<DoctorDashboard />} />

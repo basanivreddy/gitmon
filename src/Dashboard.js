@@ -48,8 +48,8 @@ function Dashboard() {
           Book Physio Consulting
         </div>
 
-        <div className="service-box">
-          AI Suggestions Chat
+        <div className="service-box" onClick={() => navigate("/chat")}>
+           AI Suggestions Chat
         </div>
       </div>
 
@@ -98,6 +98,7 @@ function Dashboard() {
           <button onClick={() => navigate("/live")}>Live AI Monitoring</button>
           <button onClick={() => navigate("/progress")}>AI Progress</button>
           <button onClick={() => navigate("/physio")}>Book Physio</button>
+          
         </div>
 
         <div className="footer-right">
