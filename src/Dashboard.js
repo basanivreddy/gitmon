@@ -1,12 +1,20 @@
-
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Dashboard() {
   const username = "Vivek"; // Later connect from login
   const navigate = useNavigate();
+
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://gaitmon.onrender.com/blogs")
+      .then((res) => setBlogs(res.data))
+      .catch((err) => console.error("Error fetching blogs:", err));
+  }, []);
 
   return (
     <div className="dashboard">
@@ -44,12 +52,12 @@ function Dashboard() {
           AI Check Your Progress
         </div>
 
-        <div className="service-box" onClick={()=> navigate("/physio")}>
+        <div className="service-box" onClick={() => navigate("/physio")}>
           Book Physio Consulting
         </div>
 
         <div className="service-box" onClick={() => navigate("/chat")}>
-           AI Suggestions Chat
+          AI Suggestions Chat
         </div>
       </div>
 
@@ -58,38 +66,29 @@ function Dashboard() {
         <h2>Latest Blogs on Gait</h2>
 
         <div className="blog-container">
-
-          <div className="blog-card">
-            <img
-              src="https://images.unsplash.com/photo-1554284126-aa88f22d8b74"
-              alt="blog"
-            />
-            <h3>Importance of Proper Walking</h3>
-            <button className="link-btn">Know More</button>
-          </div>
-
-          <div className="blog-card">
-            <img
-              src="https://images.unsplash.com/photo-1599058917765-a780eda07a3e"
-              alt="blog"
-            />
-            <h3>AI in Physical Therapy</h3>
-            <button className="link-btn">Know More</button>
-          </div>
-
-          <div className="blog-card">
-            <img
-              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b"
-              alt="blog"
-            />
-            <h3>Correcting Gait Disorders</h3>
-            <button className="link-btn">Know More</button>
-          </div>
-
+          {blogs.length === 0 ? (
+            <p>No blogs available</p>
+          ) : (
+            blogs.map((blog) => (
+              <div className="blog-card" key={blog._id}>
+                <img
+                  src="https://images.unsplash.com/photo-1554284126-aa88f22d8b74"
+                  alt="blog"
+                />
+                <h3>{blog.title}</h3>
+                <button
+                  className="link-btn"
+                  onClick={() => alert(blog.content)}
+                >
+                  Know More
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
-      {/* ===== Combined Footer Section ===== */}
+      {/* ===== Footer Section ===== */}
       <div className="footer-box">
 
         <div className="footer-left">
@@ -98,7 +97,6 @@ function Dashboard() {
           <button onClick={() => navigate("/live")}>Live AI Monitoring</button>
           <button onClick={() => navigate("/progress")}>AI Progress</button>
           <button onClick={() => navigate("/physio")}>Book Physio</button>
-          
         </div>
 
         <div className="footer-right">

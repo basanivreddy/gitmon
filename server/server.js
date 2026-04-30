@@ -255,7 +255,10 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
+app.get("/blogs", async (req, res) => {
+  const blogs = await Blog.find().sort({ createdAt: -1 });
+  res.json(blogs);
+});
 
 
 
