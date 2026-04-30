@@ -264,20 +264,50 @@ app.get("/blogs", async (req, res) => {
 const axios = require("axios");
 
 app.post("/chat", async (req, res) => {
-  const { message } = req.body;
+  const { message, userId } = req.body;
 
   try {
+    // 🔥 Get latest gait data
+    const latestUpload = await Upload.findOne({ userId })
+      .sort({ uploadedAt: -1 });
+
+    let gaitInfo = "No gait data available";
+
+    if (latestUpload && latestUpload.gaitData) {
+      const g = latestUpload.gaitData;
+
+      gaitInfo = `
+      Gait Score: ${g.gaitScore}
+      Symmetry: ${g.symmetry}
+      Cadence: ${g.cadence}
+      Speed: ${g.speed}
+      Step Length: ${g.stepLength}
+      `;
+    }
+
+    // 🔥 AI Prompt with USER DATA
+    const prompt = `
+You are a physiotherapy AI assistant.
+
+Patient gait data:
+${gaitInfo}
+
+User question: ${message}
+
+Give a simple, helpful medical-style response.
+`;
+
     const response = await axios.post("http://localhost:11434/api/generate", {
       model: "llama3",
-      prompt: message,
+      prompt: prompt,
       stream: false
     });
 
     res.json({ reply: response.data.response });
 
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "Ollama not responding" });
+    console.error(err);
+    res.status(500).json({ error: "AI error" });
   }
 });
 /* ===== Start Server ===== */

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./ChatPage.css";
 
+
 function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const userId = localStorage.getItem("userId"); // or from login
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -21,8 +23,9 @@ function ChatPage() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          message: currentInput
-        })
+  message: currentInput,
+  userId: userId
+})
       });
 
       const data = await res.json();
