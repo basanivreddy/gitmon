@@ -6,6 +6,7 @@ import axios from "axios";
 function Dashboard() {
   const username = "Vivek"; // Later connect from login
   const navigate = useNavigate();
+  const [selectedBlog, setSelectedBlog] = useState(null);
 
   const [blogs, setBlogs] = useState([]);
 
@@ -78,7 +79,7 @@ function Dashboard() {
                 <h3>{blog.title}</h3>
                 <button
                   className="link-btn"
-                  onClick={() => alert(blog.content)}
+                  onClick={() => setSelectedBlog(blog)}
                 >
                   Know More
                 </button>
@@ -106,7 +107,21 @@ function Dashboard() {
         </div>
 
       </div>
+{selectedBlog && (
+  <div className="modal-overlay">
+    <div className="modal-box">
+      <h2>{selectedBlog.title}</h2>
+      <p>{selectedBlog.content}</p>
 
+      <button
+        className="close-btn"
+        onClick={() => setSelectedBlog(null)}
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 }

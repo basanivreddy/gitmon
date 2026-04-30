@@ -5,31 +5,46 @@ function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (!input.trim()) return;
 
-    // Add user message
-    const newMessages = [...messages, { text: input, sender: "user" }];
-    setMessages(newMessages);
+    const userMessage = { text: input, sender: "user" };
+    setMessages((prev) => [...prev, userMessage]);
 
-    // (Temporary bot reply for now)
-    setTimeout(() => {
+    const currentInput = input;
+    setInput("");
+
+    try {
+      const res = await fetch("http://localhost:5000/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: currentInput
+        })
+      });
+
+      const data = await res.json();
+
       setMessages((prev) => [
         ...prev,
-        { text: "This is a sample AI reply 🤖", sender: "bot" }
+        { text: data.reply, sender: "bot" }
       ]);
-    }, 500);
 
-    setInput("");
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        { text: "Error connecting to AI 😢", sender: "bot" }
+      ]);
+    }
   };
 
   return (
     <div className="chat-container">
 
-      {/* Header */}
       <div className="chat-header">AI Gait Assistant 🤖</div>
 
-      {/* Chat Messages */}
       <div className="chat-box">
         {messages.map((msg, index) => (
           <div key={index} className={`msg-row ${msg.sender}`}>
@@ -40,7 +55,6 @@ function ChatPage() {
         ))}
       </div>
 
-      {/* Input Area */}
       <div className="input-area">
         <input
           type="text"
